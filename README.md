@@ -83,6 +83,43 @@ yarn test
 }
 ```
 
+## Princípios aplicados no backend
+
+**Camada de domínio**
+Área de conhecimento de determinado "módulo". 
+
+**Camada de infra**
+São ferramentas que escolhemos para se relacionar com a camada de domínio
+* Faz diferença para o usuário se estamos usando postgresql ou mysql?
+* Se usamos Node ou Laravel?
+*São decisões técnicas:*
+* Banco de dados
+* Express/Laravel/etc
+* Envio de e-mails
+
+**Service**
+Regra de negócio - Quando é algo muito especifico da aplicação:
+
+* Recebimento
+* Tratativa de erros/exceções
+* Acesso ao repositório
+
+**Repositories**
+Repositório é ser um serviço de domínio, que abstrai a camada de persistência da
+sua aplicação e atua como API para os serviços de aplicação (controllers, CLI,
+etc). Ou seja, deve ser a única API de acesso confiável aos objetos de domínio e
+não deve ser responsável por conexões ao banco, envio de e-mail, etc...
+
+**Principios do SOLID utilizados**
+
+Repositories - LINSKOV-SUBSTITUTION-PRINCIPLE
+Camadas que são integrações com outras bibliotecas devem ser substituíveis
+quando necessário, definindo uma camada de regras.
+
+Services - DEPENDENCY INVERSION
+Os repositories não são instanciados diretamente no service, são injetados e
+apenas a interface é definidada. 
+
 
 ## Objetivo 
 A empresa de telefonia VxTel, especializada em chamadas de longa

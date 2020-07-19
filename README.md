@@ -107,18 +107,18 @@ Regra de negócio - Quando é algo muito especifico da aplicação:
 * Acesso ao repositório
 
 **Repositories**
-Repositório é ser um serviço de domínio, que abstrai a camada de persistência da
-sua aplicação e atua como API para os serviços de aplicação (controllers, CLI,
-etc). Ou seja, deve ser a única API de acesso confiável aos objetos de domínio e
+Repositório é um serviço de domínio, que abstrai a camada de persistência da
+aplicação e atua como uma API para os serviços de aplicação (controllers, CLI,
+etc). Ou seja, deve ser a única fonte de acesso confiável aos objetos de domínio e
 não deve ser responsável por conexões ao banco, envio de e-mail, etc...
 
 **Principios do SOLID utilizados**
 
-Repositories - LINSKOV-SUBSTITUTION-PRINCIPLE
+Repositories - LINSKOV-SUBSTITUTION-PRINCIPLE - 
 Camadas que são integrações com outras bibliotecas devem ser substituíveis
 quando necessário, definindo uma camada de regras.
 
-Services - DEPENDENCY INVERSION
+Services - DEPENDENCY INVERSION - 
 Os repositories não são instanciados diretamente no service, são injetados e
 apenas a interface é definidada. 
 

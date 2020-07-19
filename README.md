@@ -83,6 +83,8 @@ yarn test
 }
 ```
 
+
+
 ## Princípios aplicados no backend
 
 **Camada de domínio**
@@ -119,6 +121,46 @@ quando necessário, definindo uma camada de regras.
 Services - DEPENDENCY INVERSION
 Os repositories não são instanciados diretamente no service, são injetados e
 apenas a interface é definidada. 
+
+**Frontend**
+- React.js
+- Typescript
+- Yup - para validações de dados
+- Axios - para realização de requisições para API
+- Prettier, eslint e editorconfig - para manter uma certa qualidade no código e
+  seguir um padrão já utilizado no mercado, neste caso o padrão escolhido foi do airbnb.
+- Styled Components - para estilização CSS
+- Polished - para trabalhar com efeito fade
+- Formik - para trabalhar com formulários e campos
+
+### Como testar o frontend
+
+1 - Instalar dependência do projeto
+```shell
+yarn 
+```
+
+2 - Rodar aplicação
+```shell
+yarn start
+```
+
+3 - Acessar:
+```
+http://localhost:3000
+```
+
+Prints:
+
+
+  <img
+  src="https://raw.githubusercontent.com/adrianoluisalmeida/vxtel/master/assets/screen-mobile.png"
+  width="200">
+
+
+  <img
+  src="https://raw.githubusercontent.com/adrianoluisalmeida/vxtel/master/assets/screen-desktop.png"
+  width="500">
 
 
 ## Objetivo 

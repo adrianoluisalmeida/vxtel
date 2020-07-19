@@ -29,7 +29,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 interface CallFormData {
   origin: string;
   destiny: string;
-  minutes: number;
+  minutes: number | null;
   plan_id: number;
 }
 
@@ -65,7 +65,6 @@ const Dashboard: React.FC = () => {
       api
         .post('/calls', values)
         .then((response) => {
-          console.log(response.data);
           setCall(response.data);
         })
         .catch((err) => {
@@ -77,6 +76,7 @@ const Dashboard: React.FC = () => {
     isInitialValid: false,
     validateOnChange: false,
     validateOnBlur: false,
+    validateOnMount: true,
   });
 
   return (
@@ -92,7 +92,7 @@ const Dashboard: React.FC = () => {
                 <Input
                   id="origin"
                   name="origin"
-                  placeholder="DDD"
+                  placeholder="DDD de origem"
                   onChange={formik.handleChange}
                   value={formik.values.origin}
                 />
@@ -100,7 +100,7 @@ const Dashboard: React.FC = () => {
                 <Input
                   id="destiny"
                   name="destiny"
-                  placeholder="DDD"
+                  placeholder="DDD de destino"
                   onChange={formik.handleChange}
                   value={formik.values.destiny}
                 />
@@ -109,9 +109,10 @@ const Dashboard: React.FC = () => {
                 <Input
                   id="minutes"
                   name="minutes"
+                  type="number"
                   placeholder="Duração em minutos"
                   onChange={formik.handleChange}
-                  value={formik.values.minutes}
+                  value={formik.values.minutes || undefined}
                 />
 
                 <Select

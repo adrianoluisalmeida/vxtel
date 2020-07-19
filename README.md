@@ -155,12 +155,12 @@ Prints:
 
   <img
   src="https://raw.githubusercontent.com/adrianoluisalmeida/vxtel/master/assets/screen-mobile.png"
-  width="200">
+  width="300">
 
 
   <img
   src="https://raw.githubusercontent.com/adrianoluisalmeida/vxtel/master/assets/screen-desktop.png"
-  width="500">
+  width="800">
 
 
 ## Objetivo 

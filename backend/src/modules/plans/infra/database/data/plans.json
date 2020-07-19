@@ -2,16 +2,16 @@
   {
     "id": 1,
     "name": "FaleMais 30",
-    "durantion": 30
+    "duration": 30
   },
   {
     "id": 2,
     "name": "FaleMais 60",
-    "durantion": 60
+    "duration": 60
   },
   {
     "id": 3,
     "name": "FaleMais 120",
-    "durantion": 120
+    "duration": 120
   }
 ]

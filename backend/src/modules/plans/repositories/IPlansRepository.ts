@@ -1,7 +1,7 @@
 interface IPlan {
   id: number;
   name: string;
-  durantion: number;
+  duration: number;
 }
 
 export default interface IPlansRepository {

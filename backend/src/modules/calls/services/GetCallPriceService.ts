@@ -39,20 +39,20 @@ class GetCallPriceService {
     });
 
     if (!call) {
-      throw new AppError('call not found');
+      throw new AppError('Verique a origem e o destino da chamada.');
     }
 
     const plan = await this.plansRepository.findById(plan_id);
 
     if (!plan) {
-      throw new AppError('plan not found');
+      throw new AppError('Plano não encontrado');
     }
 
     let tax = 1;
     let additional = 0;
 
-    if (minutes >= plan.durantion) {
-      additional = minutes - plan.durantion;
+    if (minutes >= plan.duration) {
+      additional = minutes - plan.duration;
       tax = 1.1;
     }
 

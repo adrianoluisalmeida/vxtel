@@ -5,7 +5,7 @@ import plans from '../data/plans.json';
 interface IPlan {
   id: number;
   name: string;
-  durantion: number;
+  duration: number;
 }
 
 class PlansRepository implements IPlansRepository {

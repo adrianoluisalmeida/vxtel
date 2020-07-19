@@ -5,7 +5,7 @@ import IPlansRepository from '../repositories/IPlansRepository';
 interface IPlan {
   id: number;
   name: string;
-  durantion: number;
+  duration: number;
 }
 
 @injectable()

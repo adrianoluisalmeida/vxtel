@@ -1,6 +1,8 @@
-import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
-import Header from '../../componets/Header';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+
+import { useFormik, Field } from 'formik';
+import * as Yup from 'yup';
 import {
   Container,
   Content,
@@ -8,12 +10,9 @@ import {
   Plans,
   ContentContainer,
   Input,
-  Select
+  Select,
 } from './styles';
-
-import { useFormik, Field } from 'formik';
-
-import * as Yup from 'yup';
+import Header from '../../componets/Header';
 
 import api from '../../services/api';
 
@@ -35,10 +34,10 @@ const Dashboard: React.FC = () => {
       origin: '',
       destiny: '',
       minutes: '',
-      plan_id: ''
+      plan_id: '',
     },
-    onSubmit: values => {
-      api.post('/calls', values).then(response  => {
+    onSubmit: (values) => {
+      api.post('/calls', values).then((response) => {
         const { more_economically, no_more_economically } = response.data;
 
         setEconomically(more_economically);
@@ -51,13 +50,11 @@ const Dashboard: React.FC = () => {
     <Container>
       <Header />
       <Content>
-
         <ContentContainer>
           <Calculator>
             <h2>Descubra o valor da sua ligação</h2>
 
             <form onSubmit={formik.handleSubmit}>
-
               <Input
                 id="origin"
                 name="origin"
@@ -74,7 +71,6 @@ const Dashboard: React.FC = () => {
                 value={formik.values.destiny}
               />
 
-
               <Input
                 id="minutes"
                 name="minutes"
@@ -82,7 +78,6 @@ const Dashboard: React.FC = () => {
                 onChange={formik.handleChange}
                 value={formik.values.minutes}
               />
-
 
               <Select
                 name="plan_id"
@@ -92,24 +87,25 @@ const Dashboard: React.FC = () => {
                 <option value="">Selecione um plano</option>
                 <option value="1">op1</option>
                 <option value="2">op2</option>
-
               </Select>
 
               <Button type="submit">Calcular</Button>
-
             </form>
 
             <p>{economically}</p>
             <p>{noEconomically}</p>
-
           </Calculator>
         </ContentContainer>
 
         <ContentContainer>
           <Plans>
             <tr>
-              <td><h2>Plano</h2></td>
-              <td><h2>De graça</h2></td>
+              <td>
+                <h2>Plano</h2>
+              </td>
+              <td>
+                <h2>De graça</h2>
+              </td>
             </tr>
             <tr>
               <td>Fale mais 30</td>
@@ -125,7 +121,6 @@ const Dashboard: React.FC = () => {
             </tr>
           </Plans>
         </ContentContainer>
-
       </Content>
     </Container>
   );

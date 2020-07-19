@@ -14,7 +14,7 @@ export const ContentContainer = styled.div`
   border-radius: 10px;
   padding: 30px;
   background: #fff;
-  color: #312E38;
+  color: #312e38;
   flex: 1;
   height: auto;
   display: inline-table;
@@ -41,10 +41,10 @@ export const Input = styled.input`
   background-color: #fff;
   margin-bottom: 10px;
 
-  &::placeholder{
+  &::placeholder {
     font-family: 'Roboto Slab', serif;
     font-size: 16px;
-    color: #312E38;
+    color: #312e38;
   }
 `;
 
@@ -57,7 +57,5 @@ export const Select = styled.select`
   background-color: #fff;
   font-family: 'Roboto Slab', serif;
   font-size: 16px;
-  color: #312E38;
-
+  color: #312e38;
 `;
-

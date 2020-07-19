@@ -25,6 +25,17 @@ export const Calculator = styled.div`
     text-align: center;
     margin-bottom: 20px;
   }
+
+  form {
+    div {
+      display: flex;
+      flex-direction: row;
+
+      input + * {
+        margin-left: 10px;
+      }
+    }
+  }
 `;
 
 export const Plans = styled.table`
@@ -58,4 +69,29 @@ export const Select = styled.select`
   font-family: 'Roboto Slab', serif;
   font-size: 16px;
   color: #312e38;
+`;
+
+export const ValidationsMessages = styled.div`
+  margin-top: 40px;
+
+  div {
+    margin-top: 3px;
+  }
+`;
+
+export const Result = styled.div`
+  width: 100%;
+  text-align: center;
+  margin-top: 50px;
+  h2 {
+    margin-bottom: 10px;
+  }
+
+  p {
+    strong {
+      font-size: 16px;
+    }
+
+    font-size: 24px;
+  }
 `;

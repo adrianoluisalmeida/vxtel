@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
 
-import { useFormik, Field } from 'formik';
-import * as Yup from 'yup';
+import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
+
+import { isNull } from 'util';
 import {
   Container,
   Content,
@@ -11,39 +12,71 @@ import {
   ContentContainer,
   Input,
   Select,
+  ValidationsMessages,
+  Result,
 } from './styles';
+
 import Header from '../../componets/Header';
-
-import api from '../../services/api';
-
+import ValidationErrors from '../../componets/ValidationErrors';
 import Button from '../../componets/Button';
 
-import getValidationErrors from '../../util/getValidationErrors';
+import schema from '../../validations/call';
+import formatValue from '../../util/formatValue';
+import api from '../../services/api';
 
-interface SignInFormData {
-  email: string;
-  password: string;
+import 'react-toastify/dist/ReactToastify.min.css';
+
+interface CallFormData {
+  origin: string;
+  destiny: string;
+  minutes: number;
+  plan_id: number;
+}
+
+interface Plans {
+  id: number;
+  duration: number;
+  name: string;
+}
+
+interface CallResponse {
+  more_economically: number;
+  no_more_economically: number;
 }
 
 const Dashboard: React.FC = () => {
-  const [economically, setEconomically] = useState();
-  const [noEconomically, setNoEconomically] = useState();
+  const [call, setCall] = useState<CallResponse>({} as CallResponse);
+  const [plans, setPlans] = useState<Plans[]>([]);
+
+  useEffect(() => {
+    api.get('/plans').then((response) => {
+      setPlans(response.data);
+    });
+  }, []);
 
   const formik = useFormik({
     initialValues: {
       origin: '',
       destiny: '',
-      minutes: '',
-      plan_id: '',
+      minutes: 0,
+      plan_id: 0,
     },
-    onSubmit: (values) => {
-      api.post('/calls', values).then((response) => {
-        const { more_economically, no_more_economically } = response.data;
-
-        setEconomically(more_economically);
-        setNoEconomically(no_more_economically);
-      });
+    onSubmit: (values: CallFormData) => {
+      api
+        .post('/calls', values)
+        .then((response) => {
+          console.log(response.data);
+          setCall(response.data);
+        })
+        .catch((err) => {
+          const { error } = err.response.data;
+          toast.error(error);
+        });
     },
+    validationSchema: schema,
+    isInitialValid: false,
+    validateOnChange: false,
+    validateOnBlur: false,
   });
 
   return (
@@ -55,71 +88,107 @@ const Dashboard: React.FC = () => {
             <h2>Descubra o valor da sua ligação</h2>
 
             <form onSubmit={formik.handleSubmit}>
-              <Input
-                id="origin"
-                name="origin"
-                placeholder="DDD"
-                onChange={formik.handleChange}
-                value={formik.values.origin}
-              />
+              <div>
+                <Input
+                  id="origin"
+                  name="origin"
+                  placeholder="DDD"
+                  onChange={formik.handleChange}
+                  value={formik.values.origin}
+                />
 
-              <Input
-                id="destiny"
-                name="destiny"
-                placeholder="DDD"
-                onChange={formik.handleChange}
-                value={formik.values.destiny}
-              />
+                <Input
+                  id="destiny"
+                  name="destiny"
+                  placeholder="DDD"
+                  onChange={formik.handleChange}
+                  value={formik.values.destiny}
+                />
+              </div>
+              <div>
+                <Input
+                  id="minutes"
+                  name="minutes"
+                  placeholder="Duração em minutos"
+                  onChange={formik.handleChange}
+                  value={formik.values.minutes}
+                />
 
-              <Input
-                id="minutes"
-                name="minutes"
-                placeholder="Duração em minutos"
-                onChange={formik.handleChange}
-                value={formik.values.minutes}
-              />
-
-              <Select
-                name="plan_id"
-                onChange={formik.handleChange}
-                value={formik.values.plan_id}
-              >
-                <option value="">Selecione um plano</option>
-                <option value="1">op1</option>
-                <option value="2">op2</option>
-              </Select>
+                <Select
+                  name="plan_id"
+                  onChange={formik.handleChange}
+                  value={formik.values.plan_id}
+                >
+                  <option value="">Selecione um plano</option>
+                  {plans.map((plan) => (
+                    <option key={plan.id} value={plan.id}>
+                      {plan.name}
+                    </option>
+                  ))}
+                </Select>
+              </div>
 
               <Button type="submit">Calcular</Button>
             </form>
 
-            <p>{economically}</p>
-            <p>{noEconomically}</p>
+            <ValidationsMessages>
+              <ValidationErrors
+                touched={formik.touched.origin}
+                errors={formik.errors.origin}
+              />
+              <ValidationErrors
+                touched={formik.touched.destiny}
+                errors={formik.errors.destiny}
+              />
+              <ValidationErrors
+                touched={formik.touched.minutes}
+                errors={formik.errors.minutes}
+              />
+              <ValidationErrors
+                touched={formik.touched.plan_id}
+                errors={formik.errors.plan_id}
+              />
+            </ValidationsMessages>
           </Calculator>
         </ContentContainer>
 
         <ContentContainer>
           <Plans>
-            <tr>
-              <td>
-                <h2>Plano</h2>
-              </td>
-              <td>
-                <h2>De graça</h2>
-              </td>
-            </tr>
-            <tr>
-              <td>Fale mais 30</td>
-              <td>30 min</td>
-            </tr>
-            <tr>
-              <td>Fale mais 60</td>
-              <td>60 min</td>
-            </tr>
-            <tr>
-              <td>Fale mais 120</td>
-              <td>120 min</td>
-            </tr>
+            <thead>
+              <tr>
+                <th>
+                  <h2>Plano</h2>
+                </th>
+                <th>
+                  <h2>De graça</h2>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {plans.map((plan) => {
+                return (
+                  <tr key={plan.id}>
+                    <td>{plan.name}</td>
+                    <td>{plan.duration} min</td>
+                  </tr>
+                );
+              })}
+            </tbody>
           </Plans>
+
+          {!isNull(call.more_economically) && call.no_more_economically && (
+            <Result>
+              <h2>Custo previsto da chamada</h2>
+              <p>
+                <strong>Com Fale mais</strong>:{' '}
+                {formatValue(call.more_economically)}
+              </p>
+              <p>
+                <strong>Sem Fale mais</strong>:{' '}
+                {formatValue(call.no_more_economically)}
+              </p>
+            </Result>
+          )}
         </ContentContainer>
       </Content>
     </Container>
